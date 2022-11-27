@@ -14,14 +14,14 @@ public bool isAlive = true;
 Vector2 movementInput;
 
 Rigidbody2D rb;
-
+public bool canMove = true;
 Animator animator;
 
 SpriteRenderer spriteRenderer;
 
 List <RaycastHit2D> castCollision = new List <RaycastHit2D>();
     // Start is called before the first frame update
-bool isMoving;
+public bool isMoving;
 
     void Start()
     {
@@ -33,6 +33,7 @@ bool isMoving;
     // Update is called once per frame
    private void FixedUpdate()
     {
+		if(canMove){
         if(movementInput != Vector2.zero){
         bool sucess = TryMove(movementInput);
         
@@ -55,7 +56,7 @@ bool isMoving;
     } else if (movementInput.x >0){
     spriteRenderer.flipX = false; }
     }
-
+	}
 private bool TryMove(Vector2 direction){
 	if(direction != Vector2.zero){
 		int count = rb.Cast(
@@ -80,6 +81,17 @@ private bool TryMove(Vector2 direction){
 
 void OnMove(InputValue movementValue){
     movementInput = movementValue.Get<Vector2>();
-    } 
-}
+    }
 
+public void OnFire()
+{
+animator.SetTrigger("swordAttack");
+
+
+}
+public void LockMovement(){
+canMove = false;}
+
+public void UnlockMovement(){
+canMove=true;}
+}
